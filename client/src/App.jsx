@@ -6,7 +6,7 @@ import { useState } from "react";
 function App() {
   const [balance, setBalance] = useState(0);
   const [address, setAddress] = useState("");
-  const [privateKey, setPrivateKey] = useState("");
+  const [privateKey, setPrivateKey] = useState("643b7effbe48d491bab7dc3839d841ec1bdf7b2942357964dad2bb839726dcd1");
 
   return (
     <div className="app">

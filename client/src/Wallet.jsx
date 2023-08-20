@@ -1,12 +1,14 @@
+import server from "./server";
 
 function Wallet({ address, setAddress, balance, setBalance }) {
   async function onChange(evt) {
+    console.log('getting balance frontend')
     const address = evt.target.value;
     setAddress(address);
     if (address) {
       const {
         data: { balance },
-      } = await server.get(`balance/${address}`);
+      } = await server.get(`/balance/${address}`);
       setBalance(balance);
     } else {
       setBalance(0);
