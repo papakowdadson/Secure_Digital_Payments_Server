@@ -22,13 +22,20 @@ function Transfer({ address, setBalance, privateKey }) {
 
     const _signedPayLoad = signTransaction(payload);
 
+    const signature = {
+      r: _signedPayLoad.r.toString(),
+      s: _signedPayLoad.s.toString(),
+      recovery: _signedPayLoad.recovery.toString(),
+      recoverPublicKey: _signedPayLoad.recoverPublicKey.toString(),
+    };
+
     console.log('_signedPayload:',
     {
          sender: address,
          amount: parseInt(sendAmount),
           recipient,
           hashedMessage:hashMsg(payload),
-           _signedPayLoad
+           signature:signature,
          }
    )
 
@@ -36,8 +43,8 @@ function Transfer({ address, setBalance, privateKey }) {
         sender: address,
         amount: parseInt(sendAmount),
          recipient,
-         hashedMessage:parseInt(hashMsg(payload)),
-          // _signedPayLoad
+         hashedMessage:hashMsg(payload),
+         signature:signature ,
         }
     //commented for testing
     

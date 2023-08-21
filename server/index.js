@@ -24,10 +24,16 @@ const getOwnerBalance = (owner) => {
 }
 
 const verifySender = (hashed_msg,signed)=>{
-  const rPublicKey = signed.recoverPublicKey(hashed_msg).toRawBytes()
+  const _signedBigIn= {
+    r: BigInt(signed.r),
+    s: BigInt(signed.s),
+    recovery: BigInt(signed.recovery),
+    recoverPublicKey:Big(signed.recoverPublicKey)
+  };
+  const rPublicKey = _signedBigIn.recoverPublicKey(hashed_msg).toRawBytes()
 
 // console.log('recovered public key: ', rPublicKey)
-const isVerified = secp.secp256k1.verify(signed, hashed_msg, toHex(rPublicKey))
+const isVerified = secp.secp256k1.verify(_signedBigIn, hashed_msg, toHex(rPublicKey))
 
 
 console.log("is it valid?: ", isVerified)
@@ -45,11 +51,12 @@ app.get("/balance/:address", (req, res) => {
 
 app.post("/send", (req, res) => {
   console.log('sending...................')
-  const { sender, recipient, amount,hashedMessage,_signedPayLoad } = req.body;
- console.log('verifying sender:',verifySender(hashedMessage,_signedPayLoad));
+  const { sender, recipient, amount,hashedMessage,signature } = req.body;
+  console.log('backend pay road',signedPayLoad);
+ console.log('verifying sender:',verifySender(hashedMessage,signature));
   setInitialBalance(sender);
-  setInitialBalance(recipient);
-  // console.log('balance sender:',balances[])
+  setInitialBalance(recipient);  
+
  if(verifySender(hashedMessage,_signedPayLoad)){
   if (balances[sender] < amount) {
     res.status(400).send({ message: "Not enough funds!" });
